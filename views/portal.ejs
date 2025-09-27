@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-tachometer-alt"></i>
+                DCFV BDC Dashboard
+            </a>
+            <span class="navbar-text">
+                <i class="fas fa-map-marker-alt"></i>
+                Bangalore Site
+            </span>
+        </div>
+    </nav>
+
+    <main class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active"><%= portal.name %></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="card-title mb-0">
+                            <span class="portal-icon"><%= portal.icon %></span>
+                            <%= portal.name %>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead"><%= portal.description %></p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Short URL</h6>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" value="<%= portal.shortUrl %>" readonly>
+                                            <button class="btn btn-outline-primary btn-sm copy-btn" data-url="<%= portal.shortUrl %>">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted">Use this for quick access within corporate network</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Direct URL</h6>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" value="<%= portal.directUrl %>" readonly>
+                                            <button class="btn btn-outline-primary btn-sm copy-btn" data-url="<%= portal.directUrl %>">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                        <small class="text-muted">Direct IP access for troubleshooting</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                            <a href="<%= portal.shortUrl %>" target="_blank" class="btn btn-primary btn-lg">
+                                <i class="fas fa-external-link-alt"></i>
+                                Open <%= portal.name %>
+                            </a>
+                            <a href="<%= portal.directUrl %>" target="_blank" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-link"></i>
+                                Use Direct Link
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Portal Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-5">Category:</dt>
+                            <dd class="col-sm-7"><span class="badge bg-info"><%= portal.category %></span></dd>
+                            
+                            <dt class="col-sm-5">Portal ID:</dt>
+                            <dd class="col-sm-7"><code><%= portal.id %></code></dd>
+                            
+                            <dt class="col-sm-5">Access Type:</dt>
+                            <dd class="col-sm-7">Internal Network</dd>
+                            
+                            <dt class="col-sm-5">Status:</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                    Active
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">Quick Actions</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-1">
+                            <button class="btn btn-outline-primary btn-sm compact-btn bookmark-btn" data-portal="<%= portal.name %>" data-url="<%= portal.shortUrl %>">
+                                <i class="fas fa-bookmark me-1"></i>
+                                Bookmark
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm compact-btn share-btn" data-portal="<%= portal.name %>" data-url="<%= portal.shortUrl %>">
+                                <i class="fas fa-share me-1"></i>
+                                Share
+                            </button>
+                            <a href="/" class="btn btn-outline-dark btn-sm compact-btn">
+                                <i class="fas fa-arrow-left me-1"></i>
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast notification -->
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="actionToast" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong class="me-auto">Success!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body" id="toastMessage">
+                    Action completed successfully.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-light text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">
+                &copy; <%= new Date().getFullYear() %> DCFV BDC - Bangalore Site Dashboard
+                <span class="ms-3">
+                    <i class="fas fa-clock"></i>
+                    Last updated: <%= new Date().toLocaleString() %>
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/ba-operations">
+                <i class="fas fa-chart-bar me-2"></i>
+                DCFV BA Operations
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="navbar-text me-3">
+                    <i class="fas fa-user me-1"></i>
+                    Welcome, <%= username %>
+                </span>
+                <a href="/logout" class="btn btn-outline-danger btn-sm">
+                    <i class="fas fa-sign-out-alt me-1"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="hero-section text-center mb-5">
+                    <h1 class="display-4">
+                        <i class="fas fa-chart-line"></i>
+                        DCFV BA Operations Dashboard
+                    </h1>
+                    <p class="lead">Business Analysis & Head Count Operations</p>
+                    <hr class="my-4">
+                    <p>Comprehensive analytics and reporting for DCFV Bangalore operations.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="card intel-portal-card">
+                    <div class="card-header intel-card-header">
+                        <h5 class="card-title mb-1 d-flex align-items-center">
+                            <span class="portal-icon me-3">📊</span>
+                            <div>
+                                Head Count Summary
+                                <br><small class="text-muted">Current Statistics</small>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="card-body intel-card-body">
+                        <p class="card-text mb-4">Real-time head count analytics and workforce distribution metrics.</p>
+                        <div class="portal-access-info">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="badge intel-badge">Live Data</span>
+                                <a href="http://10.224.157.37:5002/api/v1/head_count_ba/hc_summary" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-external-link-alt me-1"></i>
+                                    Access
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card intel-portal-card">
+                    <div class="card-header intel-card-header">
+                        <h5 class="card-title mb-1 d-flex align-items-center">
+                            <span class="portal-icon me-3">📈</span>
+                            <div>
+                                BA Analytics
+                                <br><small class="text-muted">Business Analysis</small>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="card-body intel-card-body">
+                        <p class="card-text mb-4">Advanced business analytics and operational insights dashboard.</p>
+                        <div class="portal-access-info">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="badge intel-badge">Active</span>
+                                <button class="btn btn-sm btn-outline-secondary" disabled>
+                                    <i class="fas fa-cog me-1"></i>
+                                    Coming Soon
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card intel-portal-card">
+                    <div class="card-header intel-card-header">
+                        <h5 class="card-title mb-1 d-flex align-items-center">
+                            <span class="portal-icon me-3">📋</span>
+                            <div>
+                                Reports Center
+                                <br><small class="text-muted">Generated Reports</small>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="card-body intel-card-body">
+                        <p class="card-text mb-4">Access historical reports and generate new operational reports.</p>
+                        <div class="portal-access-info">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="badge intel-badge">Available</span>
+                                <button class="btn btn-sm btn-outline-secondary" disabled>
+                                    <i class="fas fa-file-alt me-1"></i>
+                                    Coming Soon
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-info-circle"></i>
+                            Operations Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-server text-primary"></i> System Status</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check-circle text-success"></i> BA Operations API: Online</li>
+                                    <li><i class="fas fa-check-circle text-success"></i> Head Count Service: Active</li>
+                                    <li><i class="fas fa-info-circle text-info"></i> Last Updated: Real-time</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-building text-primary"></i> Site Information</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-envelope"></i> sig.ve.dcfv.india.all@intel.com</li>
+                                    <li><i class="fas fa-map-marker-alt"></i> DCFV BDC - Bangalore Site</li>
+                                    <li><i class="fas fa-user-tie"></i> Site Leader: Kumar, Nithin M</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">
+                &copy; <%= new Date().getFullYear() %> DCFV BA Operations - Secure Dashboard
+                <span class="ms-3">
+                    <i class="fas fa-shield-alt"></i>
+                    Authorized Access Only
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

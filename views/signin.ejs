@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <style>
+        .signin-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--intel-blue) 0%, var(--intel-navy) 100%);
+        }
+        .signin-card {
+            background: var(--intel-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-heavy);
+            border: none;
+            max-width: 400px;
+            width: 100%;
+        }
+        .signin-header {
+            background: var(--bg-secondary);
+            border-bottom: 3px solid var(--intel-blue);
+            border-radius: 12px 12px 0 0;
+            padding: 32px 24px 24px;
+            text-align: center;
+        }
+        .signin-header .icon {
+            width: 64px;
+            height: 64px;
+            background: var(--intel-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .signin-header .icon i {
+            font-size: 28px;
+            color: var(--intel-white);
+        }
+        .signin-body {
+            padding: 32px 24px;
+        }
+        .form-floating label {
+            color: var(--text-secondary);
+        }
+        .form-control:focus {
+            border-color: var(--intel-blue);
+            box-shadow: 0 0 0 3px rgba(0, 113, 197, 0.1);
+        }
+        .btn-signin {
+            background: var(--intel-blue);
+            border-color: var(--intel-blue);
+            color: var(--intel-white);
+            padding: 12px 24px;
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            transition: var(--transition-medium);
+        }
+        .btn-signin:hover {
+            background: var(--intel-blue-dark);
+            border-color: var(--intel-blue-dark);
+            color: var(--intel-white);
+            transform: translateY(-1px);
+        }
+        .alert {
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .back-link {
+            color: var(--intel-white);
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: var(--transition-medium);
+        }
+        .back-link:hover {
+            color: var(--intel-white);
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-container">
+        <a href="/" class="back-link">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Dashboard
+        </a>
+        
+        <div class="card signin-card">
+            <div class="signin-header">
+                <div class="icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4 class="mb-2 text-primary">DCFV BA Operations</h4>
+                <p class="text-muted mb-0">Secure Access Required</p>
+            </div>
+            
+            <div class="signin-body">
+                <% if (error) { %>
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <form method="POST" action="/signin/ba-operations">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                        <label for="username">
+                            <i class="fas fa-user me-2"></i>
+                            Username
+                        </label>
+                    </div>
+                    
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        <label for="password">
+                            <i class="fas fa-lock me-2"></i>
+                            Password
+                        </label>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-signin">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Contact DCFV team for access credentials
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
