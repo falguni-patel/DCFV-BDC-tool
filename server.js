@@ -51,9 +51,19 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  if (req.url.includes('/styles/') || req.url.includes('/scripts/')) {
+    console.log(`🔍 Static request: ${req.method} ${req.url}`);
+    console.log(`📂 File path: ${path.join(__dirname, 'public', req.url)}`);
+  }
+  next();
+});
+
 // Serve static files with explicit MIME types
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {
+    console.log(`📁 Serving: ${filePath}`);
     if (filePath.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
     } else if (filePath.endsWith('.js')) {
@@ -61,6 +71,46 @@ app.use(express.static(path.join(__dirname, 'public'), {
     }
   }
 }));
+
+// Explicit fallback routes for CSS and JS files
+app.get('/styles/main.css', (req, res) => {
+  const cssPath = path.join(__dirname, 'public', 'styles', 'main.css');
+  console.log(`🎨 Direct CSS request, serving from: ${cssPath}`);
+  res.type('text/css');
+  res.sendFile(cssPath);
+});
+
+app.get('/scripts/main.js', (req, res) => {
+  const jsPath = path.join(__dirname, 'public', 'scripts', 'main.js');
+  console.log(`📜 Direct JS request, serving from: ${jsPath}`);
+  res.type('application/javascript');
+  res.sendFile(jsPath);
+});
+
+// Debug endpoint to check file structure
+app.get('/debug/files', (req, res) => {
+  const fs = require('fs');
+  const publicPath = path.join(__dirname, 'public');
+  const stylesPath = path.join(publicPath, 'styles');
+  const scriptsPath = path.join(publicPath, 'scripts');
+  const cssPath = path.join(stylesPath, 'main.css');
+  const jsPath = path.join(scriptsPath, 'main.js');
+  
+  const debug = {
+    workingDir: __dirname,
+    publicPath: publicPath,
+    publicExists: fs.existsSync(publicPath),
+    stylesExists: fs.existsSync(stylesPath),
+    scriptsExists: fs.existsSync(scriptsPath),
+    cssExists: fs.existsSync(cssPath),
+    jsExists: fs.existsSync(jsPath),
+    publicContents: fs.existsSync(publicPath) ? fs.readdirSync(publicPath) : [],
+    stylesContents: fs.existsSync(stylesPath) ? fs.readdirSync(stylesPath) : [],
+    scriptsContents: fs.existsSync(scriptsPath) ? fs.readdirSync(scriptsPath) : []
+  };
+  
+  res.json(debug);
+});
 
 // Portal configuration
 const portals = [
