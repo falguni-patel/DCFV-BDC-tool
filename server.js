@@ -5,13 +5,43 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Session configuration
-app.use(session({
-  secret: 'dcfv-ba-operations-secret',
+// Graceful shutdown handling
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+  });
+});
+
+// Session configuration - Production optimized
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || 'dcfv-ba-operations-secret-' + Date.now(),
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // 24 hours
-}));
+  name: 'dcfv.sid', // Custom session name
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production' ? false : false, // Set to true if using HTTPS
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: 'lax'
+  }
+};
+
+// Add session store warning suppression for development
+if (process.env.NODE_ENV !== 'production') {
+  console.log('⚠️  Using memory session store - suitable for development only');
+} else {
+  console.log('ℹ️  Production mode: Consider using a persistent session store (Redis/MongoDB)');
+}
+
+app.use(session(sessionConfig));
 
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
@@ -159,10 +189,44 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+// Start server with error handling
+const server = app.listen(PORT, (err) => {
+  if (err) {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1);
+  }
   console.log(`🚀 DCFV BDC Dashboard running on http://localhost:${PORT}`);
   console.log(`📍 Bangalore Site Portal Hub`);
   console.log(`⏰ Started at: ${new Date().toLocaleString()}`);
+});
+
+// Handle port already in use error
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use. Please:`);
+    console.error(`   1. Kill the process using: sudo fuser -k ${PORT}/tcp`);
+    console.error(`   2. Or use a different port: PORT=5002 npm start`);
+    console.error(`   3. Or stop PM2 process: pm2 stop dcfv-bdc-tool`);
+    process.exit(1);
+  } else {
+    console.error('❌ Server error:', err);
+    process.exit(1);
+  }
+});
+
+// Graceful shutdown handling
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+  });
 });
 
 module.exports = app;

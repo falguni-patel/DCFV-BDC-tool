@@ -5,6 +5,9 @@
 
 echo "🚀 Quick updating DCFV BDC Tool..."
 
+# Clean up port conflicts first
+lsof -ti:5001 | xargs kill -9 2>/dev/null || true
+
 # Stop PM2, backup old, clone new, install, restart
 pm2 stop dcfv-bdc-tool 2>/dev/null
 [ -d "DCFV-BDC-tool" ] && mv DCFV-BDC-tool DCFV-BDC-tool-backup-$(date +%Y%m%d-%H%M%S)

@@ -50,6 +50,17 @@ fi
 
 print_status "Starting update process..."
 
+# Step 0: Clean up port conflicts
+print_status "Checking for port conflicts on port 5001..."
+if command -v lsof &> /dev/null; then
+    PORT_PROCESS=$(lsof -ti:5001)
+    if [ ! -z "$PORT_PROCESS" ]; then
+        print_warning "Port 5001 is in use, cleaning up..."
+        lsof -ti:5001 | xargs kill -9 2>/dev/null || true
+        sleep 2
+    fi
+fi
+
 # Step 1: Stop PM2 application
 print_status "Stopping PM2 application: $PM2_APP_NAME"
 pm2 stop $PM2_APP_NAME 2>/dev/null || print_warning "Application was not running"
