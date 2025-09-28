@@ -11,9 +11,9 @@ REPO_URL="https://github.com/falguni-patel/DCFV-BDC-tool.git"
 APP_DIR="DCFV-BDC-tool"
 PM2_APP_NAME="dcfv-bdc-tool"
 
-# Step 1: Fix port conflicts (kill anything using port 5001)
+# Step 1: Fix port conflicts (kill anything using port 5004)
 echo "🔧 Fixing port conflicts..."
-lsof -ti:5001 | xargs kill -9 2>/dev/null || true
+lsof -ti:5004 | xargs kill -9 2>/dev/null || true
 pm2 stop $PM2_APP_NAME 2>/dev/null || true
 pm2 delete $PM2_APP_NAME 2>/dev/null || true
 
@@ -35,6 +35,6 @@ pm2 start ecosystem.config.js
 pm2 save
 
 echo "✅ Update completed!"
-echo "📊 Dashboard: http://$(hostname -I | awk '{print $1}'):5001"
+echo "📊 Dashboard: http://$(hostname -I | awk '{print $1}'):5004"
 echo "📝 Status: pm2 status"
 echo "📄 Logs: pm2 logs $PM2_APP_NAME"

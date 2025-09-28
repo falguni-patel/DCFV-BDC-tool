@@ -3,7 +3,7 @@ const path = require('path');
 const session = require('express-session');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5004;
 
 // Graceful shutdown handling
 process.on('SIGTERM', () => {
@@ -205,7 +205,7 @@ server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.error(`❌ Port ${PORT} is already in use. Please:`);
     console.error(`   1. Kill the process using: sudo fuser -k ${PORT}/tcp`);
-    console.error(`   2. Or use a different port: PORT=5002 npm start`);
+    console.error(`   2. Or use a different port: PORT=5005 npm start`);
     console.error(`   3. Or stop PM2 process: pm2 stop dcfv-bdc-tool`);
     process.exit(1);
   } else {

@@ -99,7 +99,7 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}=========================================="
     echo -e "🎉 DCFV BDC Dashboard Tool is now running!"
     echo -e "=========================================="
-    echo -e "📊 Dashboard URL: http://your-server-ip:5001"
+    echo -e "📊 Dashboard URL: http://your-server-ip:5004"
     echo -e "🔗 Portal Hub: Access all DCFV BDC dashboards"
     echo -e "📝 PM2 Status: pm2 status"
     echo -e "📄 View Logs: pm2 logs dcfv-bdc-tool"
