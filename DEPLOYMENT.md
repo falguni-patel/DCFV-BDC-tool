@@ -42,7 +42,7 @@ npm run dev
 npm start
 ```
 
-The application will be available at: `http://localhost:3001`
+The application will be available at: `http://localhost:5001`
 
 ## 🐧 Linux Production Deployment
 
@@ -111,7 +111,7 @@ pm2 show dcfv-bdc-tool
 
 ## 🌐 Access Points
 
-- **Main Dashboard**: `http://your-server-ip:3001`
+- **Main Dashboard**: `http://your-server-ip:5001`
 - **Portal Selection**: Choose from available DCFV BDC portals
 - **Direct Links**: Access specific dashboards directly
 
