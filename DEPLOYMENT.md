@@ -89,34 +89,18 @@ pm2 startup
 
 ## � Updating the Application
 
-### Automated Update (Recommended)
+### Simple Update Script
 
-For updates after initial deployment, use the automated update script:
+Use the single `update.sh` script that handles everything:
 
 ```bash
-# Download and run the update script
 wget https://raw.githubusercontent.com/falguni-patel/DCFV-BDC-tool/main/update.sh
 chmod +x update.sh
 ./update.sh
 ```
 
-Or use the quick one-liner update:
-
-```bash
-# Quick update (less verbose)
-wget https://raw.githubusercontent.com/falguni-patel/DCFV-BDC-tool/main/quick-update.sh
-chmod +x quick-update.sh
-./quick-update.sh
-```
-
-### What the update script does:
-- ✅ Stops the current PM2 application
-- ✅ Creates a backup of the current version
-- ✅ Clones the latest version from GitHub
-- ✅ Installs/updates dependencies
-- ✅ Restarts the application with PM2
-- ✅ Handles rollback if any step fails
-- ✅ Cleans up and provides status information
+**What it does:**
+- Fixes port conflicts, runs npm install, handles PM2 restart
 
 ## �📊 PM2 Management Commands
 
