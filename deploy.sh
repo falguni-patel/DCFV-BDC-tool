@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# DCFV BDC Tool - Simple PM2 Deployment Script
+# Run this script on your Linux server
+
+echo "🚀 DCFV BDC Dashboard Tool - PM2 Setup"
+echo "==========================================="bash
+
 # DCFV User Portal - Simple PM2 Deployment Script
 # Run this script on your Linux server
 
@@ -30,15 +36,8 @@ fi
 echo -e "${GREEN}✅ Node.js version: $(node --version)${NC}"
 echo -e "${GREEN}✅ npm version: $(npm --version)${NC}"
 
-# Check if MongoDB is installed and running
-if ! command -v mongod &> /dev/null; then
-    echo -e "${YELLOW}⚠️  MongoDB is not installed. Please install MongoDB:${NC}"
-    echo "   Ubuntu/Debian: sudo apt install mongodb"
-    echo "   CentOS/RHEL: sudo yum install mongodb"
-    echo -e "${YELLOW}   Continuing anyway... (you'll need MongoDB for the app to work)${NC}"
-else
-    echo -e "${GREEN}✅ MongoDB is available${NC}"
-fi
+# Note: This BDC Dashboard Tool is a portal hub - no database required
+echo -e "${GREEN}✅ BDC Dashboard Tool - No database dependencies needed${NC}"
 
 # Install dependencies
 echo -e "${YELLOW}📦 Installing project dependencies...${NC}"
@@ -74,15 +73,15 @@ mkdir -p logs
 
 # Clean up any existing PM2 processes
 echo -e "${YELLOW}🛑 Cleaning up existing PM2 processes...${NC}"
-pm2 stop dcfv-user-portal 2>/dev/null || echo "No running process found"
-pm2 delete dcfv-user-portal 2>/dev/null || echo "No existing process to delete"
+pm2 stop dcfv-bdc-tool 2>/dev/null || echo "No running process found"
+pm2 delete dcfv-bdc-tool 2>/dev/null || echo "No existing process to delete"
 
 # Clean up any duplicate or orphaned processes
 echo -e "${YELLOW}🧹 Removing any duplicate processes...${NC}"
-pm2 list | grep -i dcfv-user-portal | awk '{print $2}' | xargs -r pm2 delete 2>/dev/null || true
+pm2 list | grep -i dcfv-bdc-tool | awk '{print $2}' | xargs -r pm2 delete 2>/dev/null || true
 
 # Start the application with PM2
-echo -e "${YELLOW}🚀 Starting DCFV User Portal with PM2...${NC}"
+echo -e "${YELLOW}🚀 Starting DCFV BDC Dashboard Tool with PM2...${NC}"
 pm2 start ecosystem.config.js
 
 if [ $? -eq 0 ]; then
@@ -98,13 +97,14 @@ if [ $? -eq 0 ]; then
     pm2 startup
     
     echo -e "${GREEN}=========================================="
-    echo -e "🎉 DCFV User Portal is now running!"
+    echo -e "🎉 DCFV BDC Dashboard Tool is now running!"
     echo -e "=========================================="
-    echo -e "📊 Portal URL: http://your-server-ip:5003"
+    echo -e "📊 Dashboard URL: http://your-server-ip:3001"
+    echo -e "🔗 Portal Hub: Access all DCFV BDC dashboards"
     echo -e "📝 PM2 Status: pm2 status"
-    echo -e "📄 View Logs: pm2 logs dcfv-user-portal"
-    echo -e "🔄 Restart: pm2 restart dcfv-user-portal"
-    echo -e "🛑 Stop: pm2 stop dcfv-user-portal"
+    echo -e "📄 View Logs: pm2 logs dcfv-bdc-tool"
+    echo -e "🔄 Restart: pm2 restart dcfv-bdc-tool"
+    echo -e "🛑 Stop: pm2 stop dcfv-bdc-tool"
     echo -e "📈 Monitor: pm2 monit"
     echo -e "=========================================="
     
@@ -114,6 +114,6 @@ if [ $? -eq 0 ]; then
 else
     echo -e "${RED}❌ Failed to start the application${NC}"
     echo -e "${YELLOW}Check the logs for more information:${NC}"
-    echo -e "${YELLOW}  pm2 logs dcfv-user-portal${NC}"
+    echo -e "${YELLOW}  pm2 logs dcfv-bdc-tool${NC}"
     exit 1
 fi
