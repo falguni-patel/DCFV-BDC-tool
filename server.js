@@ -51,8 +51,54 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Serve static files
+// Serve static files with proper MIME types for Linux
+app.use('/styles', express.static(path.join(__dirname, 'public', 'styles'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.set('Content-Type', 'text/css; charset=utf-8');
+    }
+  }
+}));
+
+app.use('/scripts', express.static(path.join(__dirname, 'public', 'scripts'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.set('Content-Type', 'application/javascript; charset=utf-8');
+    }
+  }
+}));
+
+// General static files serving
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Debug logging for static file requests
+app.use((req, res, next) => {
+  if (req.url.includes('/styles/') || req.url.includes('/scripts/')) {
+    console.log(`📁 Static file request: ${req.method} ${req.url}`);
+    console.log(`📂 Looking for file at: ${path.join(__dirname, 'public', req.url)}`);
+  }
+  next();
+});
+
+// Debug endpoint to list files
+app.get('/debug/files', (req, res) => {
+  const fs = require('fs');
+  const publicDir = path.join(__dirname, 'public');
+  const stylesDir = path.join(publicDir, 'styles');
+  const scriptsDir = path.join(publicDir, 'scripts');
+  
+  const debug = {
+    publicExists: fs.existsSync(publicDir),
+    stylesExists: fs.existsSync(stylesDir),
+    scriptsExists: fs.existsSync(scriptsDir),
+    publicContents: fs.existsSync(publicDir) ? fs.readdirSync(publicDir) : [],
+    stylesContents: fs.existsSync(stylesDir) ? fs.readdirSync(stylesDir) : [],
+    scriptsContents: fs.existsSync(scriptsDir) ? fs.readdirSync(scriptsDir) : [],
+    workingDirectory: __dirname
+  };
+  
+  res.json(debug);
+});
 
 // Portal configuration
 const portals = [

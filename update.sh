@@ -28,7 +28,13 @@ cd "$APP_DIR"
 echo "📥 Installing dependencies..."
 npm install
 
-# Step 4: Start with PM2
+# Step 4: Fix file permissions for static assets (Linux)
+echo "🔐 Setting proper file permissions..."
+chmod -R 755 public/
+chmod 644 public/styles/*.css 2>/dev/null || true
+chmod 644 public/scripts/*.js 2>/dev/null || true
+
+# Step 5: Start with PM2
 echo "🚀 Starting with PM2..."
 mkdir -p logs
 pm2 start ecosystem.config.js
