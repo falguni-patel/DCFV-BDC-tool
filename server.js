@@ -60,15 +60,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files with explicit MIME types
+// Serve static files with explicit MIME types and error handling
+app.use('/styles', express.static(path.join(__dirname, 'public', 'styles'), {
+  setHeaders: (res, filePath) => {
+    console.log(`📁 Serving CSS: ${filePath}`);
+    res.setHeader('Content-Type', 'text/css');
+  }
+}));
+
+app.use('/scripts', express.static(path.join(__dirname, 'public', 'scripts'), {
+  setHeaders: (res, filePath) => {
+    console.log(`📁 Serving JS: ${filePath}`);
+    res.setHeader('Content-Type', 'application/javascript');
+  }
+}));
+
+// General static file serving for other assets
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {
     console.log(`📁 Serving: ${filePath}`);
-    if (filePath.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-    } else if (filePath.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
   }
 }));
 
@@ -77,14 +87,29 @@ app.get('/styles/main.css', (req, res) => {
   const cssPath = path.join(__dirname, 'public', 'styles', 'main.css');
   console.log(`🎨 Direct CSS request, serving from: ${cssPath}`);
   res.type('text/css');
-  res.sendFile(cssPath);
+  res.sendFile(cssPath, (err) => {
+    if (err) {
+      console.error('Error serving CSS file:', err);
+      res.status(404).send('CSS file not found');
+    }
+  });
 });
 
 app.get('/scripts/main.js', (req, res) => {
   const jsPath = path.join(__dirname, 'public', 'scripts', 'main.js');
   console.log(`📜 Direct JS request, serving from: ${jsPath}`);
   res.type('application/javascript');
-  res.sendFile(jsPath);
+  res.sendFile(jsPath, (err) => {
+    if (err) {
+      console.error('Error serving JS file:', err);
+      res.status(404).send('JS file not found');
+    }
+  });
+});
+
+// Handle favicon.ico requests
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content response for favicon
 });
 
 // Debug endpoint to check file structure
